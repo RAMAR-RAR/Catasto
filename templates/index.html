@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ricerca immobile per codice fiscale</title>
+</head>
+<body>
+    <h1>Cerca codice fiscale</h1>
+    <form method="POST">
+        <input type="text" name="cod_fisc" placeholder="Ingrese el código fiscal">
+        <input type="submit" value="Buscar">
+    </form>
+    {% if clase %}
+        <p>Classe: {{ clase }}</p>
+        <p>Nome dei mobile: {{ name }}</p>
+        <p>Nome propietario: {{ nome }}</p>
+        <p>Cognome propietario: {{ cognome }}</p>
+        <p>Tipo: {{ type }}</p>
+    {% elif mensaje %}
+        <p>{{ mensaje }}</p>
+    {% endif %}
+</body>
+</html>
