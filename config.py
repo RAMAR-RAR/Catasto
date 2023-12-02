@@ -1,19 +1,40 @@
 from pymongo import MongoClient
 from flask import Flask, render_template, request
-from flask_pymongo import PyMongo
 import pymongo
 
 app = Flask(__name__)
 
-myClient= pymongo.MongoClient('mongodb+srv://BIGDATA1:BIGDATA1@bigdata1.atmuofo.mongodb.net/')
-mydb=myClient['proveITSAR']
-myCollection=mydb['catasto_geojson']
+myClient = pymongo.MongoClient('mongodb+srv://BIGDATA1:BIGDATA1@bigdata1.atmuofo.mongodb.net/')
+mydb = myClient['proveITSAR']
+myCollection = mydb['catasto_geojson']
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        cod_fisc = request.form['cod_fisc']
-        resultado = myCollection.find_one({"properties.cod_fisc": cod_fisc})
+        print(request.form)
+        if not request.form['cod_fisc'] == '':
+            cod_fisc = request.form['cod_fisc']
+            resultado = myCollection.find_one({"properties.cod_fisc": cod_fisc})
+        else:
+            print("Latitud ingresada")
+            latitud = float(request.form['latitud'])
+            longitud = float(request.form['longitud'])
+            resultado = myCollection.find_one({
+                "geometry.coordinates":{
+                    '$elemMatch':{
+                        '$elemMatch':{
+                            '0':longitud}
+                    },
+                    '$elemMatch': {
+                        '$elemMatch': {
+                            '1':latitud
+                        }
+                    }
+                }
+            })
+        #else:
+        #    return render_template('index.html', mensaje="Ingrese coordenadas válidas o un código fiscal.")
+        
         if resultado:
             clase = resultado['properties']['fclass']
             name = resultado['properties']['name']
@@ -22,7 +43,7 @@ def index():
             types = resultado['properties']['type']
             return render_template('index.html', clase=clase, name=name, nome=nome, cognome=cognome, type=types)
         else:
-            return render_template('index.html', mensaje="No se encontraron datos para el código fiscal proporcionado.")
+            return render_template('index.html', mensaje="No se encontraron datos para el código fiscal o las coordenadas proporcionadas.")
     return render_template('index.html')
 
 if __name__ == '__main__':
