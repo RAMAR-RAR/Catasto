@@ -1,0 +1,16 @@
+Applicazione per il censimento dei terreni:
+
+Obiettivo:
+ -realizzare un’applicazione CLI Python che gestisca la ricerca del catasto dei terreni ---> fatto
+ -Utilizzare MongoDB come database        ---> fatto
+
+Requisiti OBBLIGATORI (perché più semplici):
+ -L’utente deve poter trovare i dati del terreno dato un punto geografico.    ---> da fare
+    Es «restituisci il dato del terreno che contiene il punto 34N,12E»
+ -L’utente deve poter trovare tutti i terreni di proprietà di un certo codice fiscale   ---> fatto
+ - L’utente può cercare i terreni coinvolti dalla costruzioni di una nuova strada:      ---> da fare
+ - Elenco dei terreni e dei relativi proprietari che intersecano il tracciato di una futura strada ---> da fare
+
+Requisiti OPZIONALI (se volete cimentarvi, punti bonus!):
+ -L’utente può cercare i terreni coinvolti dalla costruzioni di una nuova strada:    
+ -Elenco dei terreni e dei relativi proprietari che intersecano il tracciato di una futura strada
