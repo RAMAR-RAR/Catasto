@@ -16,18 +16,15 @@ def index():
             cod_fisc = request.form['cod_fisc']
             resultado = myCollection.find_one({"properties.cod_fisc": cod_fisc})
         else:
-            print("Latitud ingresada")
+            print("Longitud ingresada")
             latitud = float(request.form['latitud'])
             longitud = float(request.form['longitud'])
+            print(longitud)
             resultado = myCollection.find_one({
-                "geometry.coordinates":{
-                    '$elemMatch':{
-                        '$elemMatch':{
-                            '0':longitud}
-                    },
+                'geometry.coordinates': {
                     '$elemMatch': {
                         '$elemMatch': {
-                            '1':latitud
+                            '0': longitud
                         }
                     }
                 }
