@@ -1,5 +1,5 @@
 .body {
-    margin:0;
+    margin:200;
     padding:0;
 }
 
@@ -10,7 +10,7 @@ h1 {
 
 .container{
     display:grid;
-    grid-template-columns: 2fr 1fr;
-    grid-gap:10px;
+    grid-template-columns: 2fr 2fr;
+    grid-gap:30px;
     padding: 20px
 }
