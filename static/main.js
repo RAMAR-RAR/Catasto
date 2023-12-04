@@ -3979,3 +3979,27 @@ var catastoData = {
 L.geoJson(catastoData, {onEachFeature:function(feature,layer){
     layer.bindPopup(feature.properties.ADMIN)},
     style:{fillColor:"black", fillOpacity:0.2,color:'black', weight: 1}}).addTo(map);
+
+    var form = document.querySelector('form');
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        var latitud = document.getElementById('latitud').value;
+        var longitud = document.getElementById('longitud').value;
+    
+        // Verificar si se ingresaron valores de latitud y longitud
+        if (latitud !== '' && longitud !== '') {
+            // Convertir las coordenadas a números
+            var lat = parseFloat(latitud);
+            var lng = parseFloat(longitud);
+    
+            // Verificar si las coordenadas son números válidos
+            if (!isNaN(lat) && !isNaN(lng)) {
+                // Utilizar flyTo para centrar el mapa en las coordenadas ingresadas
+                map.flyTo([lat, lng], 19);
+            } else {
+                alert('Ingrese valores numéricos válidos para latitud y longitud.');
+            }
+        } else {
+            alert('Por favor, ingrese valores para latitud y longitud.');
+        }
+    });
