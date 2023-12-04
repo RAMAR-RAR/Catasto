@@ -30,7 +30,7 @@
     
                 <input type="submit" value="Buscar">
             </form>
-    
+            <h2>Result</h2>
             {% if clase %}
                 <p>Clase: {{ clase }}</p>
                 <p>Name of properety: {{ name }}</p>
@@ -40,6 +40,7 @@
             {% elif mensaje %}
                 <p>{{ mensaje }}</p>
             {% endif %}
+        
         </div>
         <div id="map">
         </div>
