@@ -3979,27 +3979,47 @@ var catastoData = {
 L.geoJson(catastoData, {onEachFeature:function(feature,layer){
     layer.bindPopup(feature.properties.ADMIN)},
     style:{fillColor:"black", fillOpacity:0.2,color:'black', weight: 1}}).addTo(map);
+    
+// var form = document.querySelector('form');
+// form.addEvent('submit').addEventListener("change",function(e){
+//     var lat = parseFloat(document.getElementById('latitud').value); 
+//     var lon = parseFloat(document.getElementById('longitud').value);
+//     if (!isNaN(lat) && !isNaN(lon)) {
+//         map.flyTo([lat, lon], 19); 
+//     } else {
+//         console.error('Las coordenadas ingresadas no son válidas');
+//     }
+//     });
+//eventos en el mapa de obtener coordenadas
+var line = null;
+var lineCoordinates = [];
 
-    var form = document.querySelector('form');
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        var latitud = document.getElementById('latitud').value;
-        var longitud = document.getElementById('longitud').value;
-    
-        // Verificar si se ingresaron valores de latitud y longitud
-        if (latitud !== '' && longitud !== '') {
-            // Convertir las coordenadas a números
-            var lat = parseFloat(latitud);
-            var lng = parseFloat(longitud);
-    
-            // Verificar si las coordenadas son números válidos
-            if (!isNaN(lat) && !isNaN(lng)) {
-                // Utilizar flyTo para centrar el mapa en las coordenadas ingresadas
-                map.flyTo([lat, lng], 19);
-            } else {
-                alert('Ingrese valores numéricos válidos para latitud y longitud.');
-            }
-        } else {
-            alert('Por favor, ingrese valores para latitud y longitud.');
+function onMapClick(e) {
+    lineCoordinates.push(e.latlng);
+
+    if (lineCoordinates.length === 2) {
+        if (line !== null) {
+            map.removeLayer(line);
         }
-    });
+
+        line = L.polyline(lineCoordinates, {
+            color: 'green',
+            weight: 4
+        }).addTo(map);
+
+        var lineCoordinatesDisplay = document.getElementById('lineCoordinates');
+        lineCoordinatesDisplay.innerHTML = '';
+
+        lineCoordinatesDisplay.innerHTML = '<h3>Coordenadas de la línea:</h3>';
+        lineCoordinates.forEach(function(coord, index) {
+            lineCoordinatesDisplay.innerHTML += `Coordenada ${index + 1}: Latitud ${coord.lat}, Longitud ${coord.lng}<br>`;
+        });
+
+        lineCoordinates.length = 0;
+    }
+}
+
+map.on('click', onMapClick);
+
+
+
