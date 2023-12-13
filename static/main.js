@@ -3993,6 +3993,25 @@ L.geoJson(catastoData, {onEachFeature:function(feature,layer){
 //eventos en el mapa de obtener coordenadas
 var line = null;
 var lineCoordinates = [];
+function enviarCoordenadasAlServidor(coords) {
+    fetch('/routes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ coordinates: coords })
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Coordenadas enviadas exitosamente al servidor.');
+        } else {
+            throw new Error('Error al enviar las coordenadas.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 function onMapClick(e) {
     lineCoordinates.push(e.latlng);
@@ -4010,16 +4029,15 @@ function onMapClick(e) {
         var lineCoordinatesDisplay = document.getElementById('lineCoordinates');
         lineCoordinatesDisplay.innerHTML = '';
 
-        lineCoordinatesDisplay.innerHTML = '<h3>Coordenadas de la línea:</h3>';
+        lineCoordinatesDisplay.innerHTML = '<h3>Line coordinates:</h3>';
         lineCoordinates.forEach(function(coord, index) {
             lineCoordinatesDisplay.innerHTML += `Coordenada ${index + 1}: Latitud ${coord.lat}, Longitud ${coord.lng}<br>`;
         });
-
+        enviarCoordenadasAlServidor(lineCoordinates);
         lineCoordinates.length = 0;
     }
 }
 
 map.on('click', onMapClick);
-
 
 

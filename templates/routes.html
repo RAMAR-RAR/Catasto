@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dibujar y mostrar coordenadas en Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+        }
+        #coordinatesDisplay {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        #lineCoordinates {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        #resultTable {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        #resultTable th, #resultTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="coordinatesDisplay"></div>
+    <div id="lineCoordinates"></div>
+    <table id="resultTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>_id</th>
+                <th>osm_id</th>
+                <th>code</th>
+                <th>fclass</th>
+                <th>name</th>
+                <th>type</th>
+                <th>nome</th>
+                <th>cognome</th>
+                <th>data_nascita</th>
+                <th>cod_fisc</th>
+            </tr>
+        </thead>
+        <tbody id="resultBody">
+        </tbody>
+    </table>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/static/main.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/routes', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => mostrarResultadosEnTabla(data.resultados))
+                .catch(error => console.error('Error:', error));
+        });
+
+        function mostrarResultadosEnTabla(resultados) {
+            var resultBody = document.getElementById('resultBody');
+
+            resultados.forEach(function(resultado) {
+                var row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${resultado.properties._id}</td>
+                    <td>${resultado.properties.type}</td>
+                    <td>${resultado.properties._id}</td>
+                    <td>${resultado.properties.osm_id}</td>
+                    <td>${resultado.properties.code}</td>
+                    <td>${resultado.properties.fclass}</td>
+                    <td>${resultado.properties.name}</td>
+                    <td>${resultado.properties.type}</td>
+                    <td>${resultado.properties.nome}</td>
+                    <td>${resultado.properties.cognome}</td>
+                    <td>${resultado.properties.data_nascita}</td>
+                    <td>${resultado.properties.cod_fisc}</td>
+                `;
+                resultBody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
+
+
