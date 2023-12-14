@@ -50,7 +50,7 @@ def dati():
     return render_template('dati.html')
 
 coordinates=[]
-@app.route('/routes', methods=['GET', 'POST'])
+@app.route('/routes', methods=['GET','POST'])
 def save_coord():
     global coordinates
     formatted_results=[]
@@ -70,22 +70,23 @@ def save_coord():
                     }
                 }
             })
-            formatted_results = []
-            for doc in results:
+            
+            for result in results:
+                clase = result['properties']['fclass']
+                name = result['properties']['name']
+                nome = result['properties']['nome']
+                cognome = result['properties']['cognome']
+                types = result['properties']['type']
                 formatted_results.append({
-                    'cod_fisc': doc['properties']['cod_fisc'],
-                    'nome': doc['properties']['nome'],
-                    'cognome': doc['properties']['cognome'],
-                    'data_nascita': doc['properties']['data_nascita'],
-                    'fclass': doc['properties']['fclass'],
-                    'type': doc['properties']['type']
-                    })
-            formatted_results=json.dumps(formatted_results)
-            print(formatted_results)
-            return render_template('routes.html', raw_json=formatted_results)
-        else:
-            return jsonify(message='non ci sono proprietà in questa ruta')
-    
+                    'clase': clase,
+                    'name': name,
+                    'nome': nome,
+                    'cognome': cognome,
+                    'types': types
+                })
+              
+            #print(formatted_results)
+            return (formatted_results)    
 
     return render_template('routes.html')
 

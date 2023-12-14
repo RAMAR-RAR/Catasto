@@ -4001,12 +4001,15 @@ function enviarCoordenadasAlServidor(coords) {
         },
         body: JSON.stringify({ coordinates: coords })
     })
-    .then(response => {
-        if (response.ok) {
-            return response.json(); 
-        } else {
-            throw new Error('Error al enviar las coordenadas.');
-        }
+        .then(response => response.text()) // Recibir la respuesta como texto plano
+        .then(data => {
+        // Imprimir la respuesta del backend en la consola del navegador
+            console.log('Respuesta del backend:', data);
+
+        // Resto del código para manejar la respuesta...
+        })
+        .catch(error => {
+            console.error('Error:', error);
     });
     
 }
@@ -4027,7 +4030,7 @@ function onMapClick(e) {
         var lineCoordinatesDisplay = document.getElementById('lineCoordinates');
         lineCoordinatesDisplay.innerHTML = '';
 
-        lineCoordinatesDisplay.innerHTML = '<h3>Line coordinates:</h3>';
+        lineCoordinatesDisplay.innerHTML = '<h3>Coordinate della linea:</h3>';
         lineCoordinates.forEach(function(coord, index) {
             lineCoordinatesDisplay.innerHTML += `Coordenada ${index + 1}: Latitud ${coord.lat}, Longitud ${coord.lng}<br>`;
         });
@@ -4038,3 +4041,27 @@ function onMapClick(e) {
 
 map.on('click', onMapClick);
 
+// Obtén la referencia al elemento de la tabla
+var tableBody = document.querySelector('#results tbody');
+
+// Función para agregar filas a la tabla
+function addRowsToTable(data) {
+    // Limpia cualquier contenido existente en la tabla
+    tableBody.innerHTML = '';
+
+    // Itera sobre los datos recibidos y crea filas para la tabla
+    data.forEach(function(result) {
+        // Crea una nueva fila
+        var row = document.createElement('tr');
+
+        // Crea celdas con los valores de cada campo en el resultado
+        Object.keys(result).forEach(function(key) {
+            var cell = document.createElement('td');
+            cell.textContent = result[key];
+            row.appendChild(cell);
+        });
+
+        // Agrega la fila a la tabla
+        tableBody.appendChild(row);
+    });
+}
