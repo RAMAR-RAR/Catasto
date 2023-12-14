@@ -4003,14 +4003,12 @@ function enviarCoordenadasAlServidor(coords) {
     })
     .then(response => {
         if (response.ok) {
-            console.log('Coordenadas enviadas exitosamente al servidor.');
+            return response.json(); 
         } else {
             throw new Error('Error al enviar las coordenadas.');
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
     });
+    
 }
 
 function onMapClick(e) {
@@ -4039,5 +4037,4 @@ function onMapClick(e) {
 }
 
 map.on('click', onMapClick);
-
 

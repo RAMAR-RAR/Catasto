@@ -30,63 +30,33 @@
     </style>
 </head>
 <body>
+    <h1>Disegna una riga e seleziona poligoni</h1>
     <div id="map"></div>
     <div id="coordinatesDisplay"></div>
     <div id="lineCoordinates"></div>
-    <table id="resultTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Type</th>
-                <th>_id</th>
-                <th>osm_id</th>
-                <th>code</th>
-                <th>fclass</th>
-                <th>name</th>
-                <th>type</th>
-                <th>nome</th>
-                <th>cognome</th>
-                <th>data_nascita</th>
-                <th>cod_fisc</th>
-            </tr>
-        </thead>
-        <tbody id="resultBody">
-        </tbody>
-    </table>
-
+    <form method="POST"></form>
+    <!-- <table>
+        <tr>
+          <th>Cod fisc</th>
+          <th>Nome</th>
+          <th>Cognome</th>
+          <th>Data nascita</th>
+          <th>Fclass</th>
+          <th>Type</th>
+        </tr>
+        {% for result in resultado %}
+          <tr>
+            <td>{{ result.cod_fisc }}</td>
+            <td>{{ result['nome'] }}</td>
+            <td>{{ result['cognome']  }}</td>
+            <td>{{ result['data_nascita']}}</td>
+            <td>{{ result['fclass']}}</td>
+            <td>{{ result['type'] }}</td>
+          </tr>
+        {% endfor %}
+      </table> -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/static/main.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch('/routes', { method: 'POST' })
-                .then(response => response.json())
-                .then(data => mostrarResultadosEnTabla(data.resultados))
-                .catch(error => console.error('Error:', error));
-        });
-
-        function mostrarResultadosEnTabla(resultados) {
-            var resultBody = document.getElementById('resultBody');
-
-            resultados.forEach(function(resultado) {
-                var row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${resultado.properties._id}</td>
-                    <td>${resultado.properties.type}</td>
-                    <td>${resultado.properties._id}</td>
-                    <td>${resultado.properties.osm_id}</td>
-                    <td>${resultado.properties.code}</td>
-                    <td>${resultado.properties.fclass}</td>
-                    <td>${resultado.properties.name}</td>
-                    <td>${resultado.properties.type}</td>
-                    <td>${resultado.properties.nome}</td>
-                    <td>${resultado.properties.cognome}</td>
-                    <td>${resultado.properties.data_nascita}</td>
-                    <td>${resultado.properties.cod_fisc}</td>
-                `;
-                resultBody.appendChild(row);
-            });
-        }
-    </script>
 </body>
 </html>
 
