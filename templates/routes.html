@@ -35,30 +35,7 @@
     <div id="coordinatesDisplay"></div>
     <div id="lineCoordinates"></div>
     <h1>Risultati della Query</h1>
-    <div id="results">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Clase</th>
-                    <th>Name</th>
-                    <th>Nome</th>
-                    <th>Cognome</th>
-                    <th>Types</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for result in results %}
-            <tr>
-                <td>{{ result['clase'] }}</td>
-                <td>{{ result['name'] }}</td>
-                <td>{{ result['nome'] }}</td>
-                <td>{{ result['cognome'] }}</td>
-                <td>{{ result['types'] }}</td>
-            </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <div id="tabla-resultados"></div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="/static/main.js"></script>
 </body>

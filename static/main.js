@@ -3979,7 +3979,7 @@ var catastoData = {
 L.geoJson(catastoData, {onEachFeature:function(feature,layer){
     layer.bindPopup(feature.properties.ADMIN)},
     style:{fillColor:"black", fillOpacity:0.2,color:'black', weight: 1}}).addTo(map);
-    
+// funsione per fare zoom alle proprietà   
 // var form = document.querySelector('form');
 // form.addEvent('submit').addEventListener("change",function(e){
 //     var lat = parseFloat(document.getElementById('latitud').value); 
@@ -3990,7 +3990,7 @@ L.geoJson(catastoData, {onEachFeature:function(feature,layer){
 //         console.error('Las coordenadas ingresadas no son válidas');
 //     }
 //     });
-//eventos en el mapa de obtener coordenadas
+//obtener coordenadas
 var line = null;
 var lineCoordinates = [];
 function enviarCoordenadasAlServidor(coords) {
@@ -4001,17 +4001,33 @@ function enviarCoordenadasAlServidor(coords) {
         },
         body: JSON.stringify({ coordinates: coords })
     })
-        .then(response => response.text()) // Recibir la respuesta como texto plano
-        .then(data => {
-        // Imprimir la respuesta del backend en la consola del navegador
-            console.log('Respuesta del backend:', data);
+    .then(response => response.json())
+    .then(data => {
+        if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
+            var tableHTML = '<table border="1"><thead><tr>';
+            Object.keys(data[0]).forEach(key => {
+                tableHTML += `<th>${key}</th>`;
+            });
+            tableHTML += '</tr></thead><tbody>';
 
-        // Resto del código para manejar la respuesta...
-        })
-        .catch(error => {
-            console.error('Error:', error);
+            data.forEach(obj => {
+                tableHTML += '<tr>';
+                Object.values(obj).forEach(value => {
+                    tableHTML += `<td>${value}</td>`;
+                });
+                tableHTML += '</tr>';
+            });
+
+            tableHTML += '</tbody></table>';
+
+            document.getElementById('tabla-resultados').innerHTML = tableHTML;
+        } else {
+            console.log('La respuesta no es una lista de diccionarios.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
     });
-    
 }
 
 function onMapClick(e) {
@@ -4040,28 +4056,3 @@ function onMapClick(e) {
 }
 
 map.on('click', onMapClick);
-
-// Obtén la referencia al elemento de la tabla
-var tableBody = document.querySelector('#results tbody');
-
-// Función para agregar filas a la tabla
-function addRowsToTable(data) {
-    // Limpia cualquier contenido existente en la tabla
-    tableBody.innerHTML = '';
-
-    // Itera sobre los datos recibidos y crea filas para la tabla
-    data.forEach(function(result) {
-        // Crea una nueva fila
-        var row = document.createElement('tr');
-
-        // Crea celdas con los valores de cada campo en el resultado
-        Object.keys(result).forEach(function(key) {
-            var cell = document.createElement('td');
-            cell.textContent = result[key];
-            row.appendChild(cell);
-        });
-
-        // Agrega la fila a la tabla
-        tableBody.appendChild(row);
-    });
-}

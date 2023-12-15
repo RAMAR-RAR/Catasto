@@ -84,10 +84,7 @@ def save_coord():
                     'cognome': cognome,
                     'types': types
                 })
-              
-            #print(formatted_results)
-            return (formatted_results)    
-
+        return (formatted_results)    
     return render_template('routes.html')
 
 if __name__ == '__main__':
