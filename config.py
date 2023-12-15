@@ -21,13 +21,13 @@ def dati():
         print(request.form)
         if not request.form['cod_fisc'] == '':
             cod_fisc = request.form['cod_fisc']
-            resultado = myCollection.find_one({"properties.cod_fisc": cod_fisc})
+            resultados = myCollection.find({"properties.cod_fisc": cod_fisc})
         else:
             print("Longitud ingresada")
             latitud = float(request.form['latitud'])
             longitud = float(request.form['longitud'])
             print(longitud)
-            resultado = myCollection.find_one({ 
+            resultados = myCollection.find({ 
                 'geometry.coordinates': {
                     '$elemMatch': {
                         '$elemMatch': {
@@ -38,15 +38,28 @@ def dati():
                     }
                 }
             })       
-        if resultado:
+        
+        lista_resultados = []
+        for resultado in resultados:
             clase = resultado['properties']['fclass']
             name = resultado['properties']['name']
             nome = resultado['properties']['nome']
             cognome = resultado['properties']['cognome']
             types = resultado['properties']['type']
-            return render_template('dati.html', clase=clase, name=name, nome=nome, cognome=cognome, type=types)
+            lista_resultados.append({
+                'clase': clase,
+                'name': name,
+                'nome': nome,
+                'cognome': cognome,
+                'type': types
+            })
+
+        if lista_resultados:
+            print(lista_resultados)
+            return render_template('dati.html', resultados=lista_resultados)
         else:
             return render_template('dati.html', mensaje="No se encontraron datos para el código fiscal o las coordenadas proporcionadas.")
+
     return render_template('dati.html')
 
 coordinates=[]

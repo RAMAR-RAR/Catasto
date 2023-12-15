@@ -1,17 +1,14 @@
-.body {
-    margin:300;
-    padding:0;
-}
-
-h1 {
-    margin: 50px;
-    text-align: center;
-}
-
 .container{
     display:grid;
     grid-template-columns: 2fr 2fr;
     height: 500px; 
     grid-gap:30px;
     padding: 20px
+}
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,900);
+
+body{
+    margin:30px; 
+    background-color: rgb(230, 230, 250);
+    font-family: lato;
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>ricerca immobile per codice fiscale o coordinate</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
@@ -30,17 +31,35 @@
     
                 <input type="submit" value="Buscar">
             </form>
-            <h2>Result</h2>
-            {% if clase %}
-                <p>Clase: {{ clase }}</p>
-                <p>Name of properety: {{ name }}</p>
-                <p>Owner's name: {{ nome }}</p>
-                <p>Owner's lastname: {{ cognome }}</p>
-                <p>Type: {{ type }}</p>
-            {% elif mensaje %}
-                <p>{{ mensaje }}</p>
-            {% endif %}
-        
+            <h2>Results</h2>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Clase</th>
+                        <th>Name of Property</th>
+                        <th>Owner's Name</th>
+                        <th>Owner's Lastname</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if resultados %}
+                        {% for result in resultados %}
+                            <tr>
+                                <td>{{ result['clase'] }}</td>
+                                <td>{{ result['name'] }}</td>
+                                <td>{{ result['nome'] }}</td>
+                                <td>{{ result['cognome'] }}</td>
+                                <td>{{ result['type'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5">No results found</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
         <div id="map">
 
